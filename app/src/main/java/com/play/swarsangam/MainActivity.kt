@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right,0)
             insets
         }
+        checkPermissions()
 
         // Set listener for bottom navigation item clicks
         binding.bottomNavigation.setOnNavigationItemSelectedListener { item ->
@@ -56,7 +57,7 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
-        checkPermissions()
+
 
         // Set default fragment
         binding.bottomNavigation.selectedItemId = R.id.menu_home
@@ -107,8 +108,11 @@ class MainActivity : AppCompatActivity() {
                     // Permissions granted, proceed with loading audio and video files
                     loadAudioFiles()
                     //loadVideoFiles()
-                } else {
-                    // Permission denied, handle accordingly
+                }
+
+                else{
+                    checkPermissions()
+
                 }
             }
         }
