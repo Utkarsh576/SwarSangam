@@ -93,8 +93,12 @@ class MainActivity : AppCompatActivity() {
                 permissionsToRequest.toTypedArray(),
                 PERMISSIONS_REQUEST_CODE
             )
+        } else {
+            // Permissions already granted, proceed with loading audio files
+            loadAudioFiles()
         }
     }
+
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
