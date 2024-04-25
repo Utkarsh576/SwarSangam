@@ -189,9 +189,10 @@ class MainActivity : AppCompatActivity() {
                     audioFolderList.add(audioFolder)
                 }
 
-                /*if (!artistList.contains(artist)) {
+                if (!artistList.contains(artist)) {
                     artistList.add(artist)
-                }*/
+                }
+
             }
         }
     }
@@ -203,9 +204,10 @@ class MainActivity : AppCompatActivity() {
         //val videoList = ArrayList<VideoFile>() // ArrayList to store video files
         val audioFolderList = ArrayList<AudioFolder>()
         val albumList = ArrayList<AlbumInfo>()
+        val artistList = ArrayList<String>()
         /*val folderList = ArrayList<VideoFolder>()
 
-         val artistList = ArrayList<String>()*/
+        */
     }
 
 

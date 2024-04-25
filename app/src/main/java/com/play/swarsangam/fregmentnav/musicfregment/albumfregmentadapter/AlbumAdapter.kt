@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide
 import com.play.swarsangam.AlbumInfo
 import com.play.swarsangam.R
 
-class AlbumAdapter(private val context: Context,private val albumList: ArrayList<AlbumInfo>) :
+class AlbumAdapter(private val context: Context, private val albumList: ArrayList<AlbumInfo>) :
     RecyclerView.Adapter    <AlbumAdapter.AlbumViewHolder>() {
 
     // Inner ViewHolder class

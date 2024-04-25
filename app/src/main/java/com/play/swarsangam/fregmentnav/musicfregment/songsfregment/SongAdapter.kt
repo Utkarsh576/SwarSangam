@@ -42,7 +42,7 @@ class SongAdapter(private val context: Context, private val songList: List<Audio
             Glide.with(itemView)
                 .load(song.albumArtUri) // Assuming artUri is the URI of the song art
                 .placeholder(R.drawable.musicplayer) // Placeholder image while loading
-                .error(R.drawable.ic_music) // Error image if Glide fails to load
+                .error(R.drawable.musicplayer) // Error image if Glide fails to load
                 .into(songArt)
         }
     }
