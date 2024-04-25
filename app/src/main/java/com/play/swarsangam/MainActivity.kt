@@ -163,14 +163,14 @@ class MainActivity : AppCompatActivity() {
                 val filePath = path.substringBeforeLast('/')
                 val folderName = filePath.substringAfterLast('/')
 
-                /* val existingAlbum = albumList.find { info ->
+                 val existingAlbum = albumList.find { info ->
                      info.album == album && info.albumId == albumId
                  }
                  if (existingAlbum == null) {
                      // If not, add it along with the art URI
-                     val albumInfo = AlbumInfo(albumId, album, albumArtUri.toString())
+                     val albumInfo = AlbumInfo(albumId, album, albumArtUri)
                      albumList.add(albumInfo)
-                 }*/
+                 }
 
                 val audioFile = AudioFile(
                     id,
@@ -202,8 +202,9 @@ class MainActivity : AppCompatActivity() {
         val audioList = ArrayList<AudioFile>() // ArrayList to store audio files
         //val videoList = ArrayList<VideoFile>() // ArrayList to store video files
         val audioFolderList = ArrayList<AudioFolder>()
+        val albumList = ArrayList<AlbumInfo>()
         /*val folderList = ArrayList<VideoFolder>()
-         val albumList = ArrayList<AlbumInfo>()
+
          val artistList = ArrayList<String>()*/
     }
 
