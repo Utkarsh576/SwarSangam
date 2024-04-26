@@ -13,6 +13,8 @@ import com.play.swarsangam.fregmentnav.musicfregment.AudioFile
 
 class SongAdapter(private val context: Context, private val songList: List<AudioFile>) : RecyclerView.Adapter<SongAdapter.ViewHolder>() {
 
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.song_item, parent, false)
         return ViewHolder(view)
@@ -35,7 +37,8 @@ class SongAdapter(private val context: Context, private val songList: List<Audio
 
         fun bind(song: AudioFile) {
             songTitleTextView.text = song.title
-            durationTextView.text = song.duration.toString() // Assuming duration is stored as milliseconds
+            durationTextView.text =
+                song.duration.toString() // Assuming duration is stored as milliseconds
             songSizeTextView.text = song.size.toString() // Assuming size is stored in bytes
             // You can bind other song data here
             // Load song art using Glide
@@ -44,6 +47,9 @@ class SongAdapter(private val context: Context, private val songList: List<Audio
                 .placeholder(R.drawable.musicplayer) // Placeholder image while loading
                 .error(R.drawable.musicplayer) // Error image if Glide fails to load
                 .into(songArt)
+
+        }
         }
     }
-}
+
+

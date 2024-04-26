@@ -1,5 +1,6 @@
 package com.play.swarsangam.fregmentnav.musicfregment
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -34,4 +35,7 @@ class SongFragment : Fragment() {
         val adapter = SongAdapter(requireContext(), MainActivity.audioList)
         recyclerView.adapter = adapter
     }
+
+
+
 }
