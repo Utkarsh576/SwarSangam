@@ -62,7 +62,7 @@ class MusicService : Service() ,AudioManager
         val notification = NotificationCompat.Builder(this, AppClass.CHANNEL_ID)
             .setContentTitle(PlayerActivity.songList[PlayerActivity.currentPosition].title)
             .setContentText(PlayerActivity.songList[PlayerActivity.currentPosition].artist)
-            .setSmallIcon(R.drawable.musicplayer)
+            .setSmallIcon(R.drawable.musicalnote)
             .setLargeIcon(img)
             .setStyle(androidx.media.app.NotificationCompat.MediaStyle().setMediaSession(mediaSession.sessionToken))
             .setPriority(NotificationCompat.PRIORITY_HIGH)
