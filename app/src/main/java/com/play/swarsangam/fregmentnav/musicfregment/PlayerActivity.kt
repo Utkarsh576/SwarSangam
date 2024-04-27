@@ -1,34 +1,24 @@
 package com.play.swarsangam.fregmentnav.musicfregment
 
-import android.media.MediaPlayer
-import android.os.Bundle
-import com.play.swarsangam.service.MusicService
-import android.os.IBinder
-
-
-
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.play.swarsangam.MainActivity
-import com.play.swarsangam.R
-import com.play.swarsangam.databinding.ActivityPlayerBinding
-
-
-import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.media.AudioManager
-
+import android.media.MediaPlayer
+import android.os.Bundle
 import android.os.Handler
-import androidx.core.content.getSystemService
-
-
+import android.os.IBinder
+import android.widget.SeekBar
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
-
+import com.play.swarsangam.MainActivity
+import com.play.swarsangam.R
+import com.play.swarsangam.databinding.ActivityPlayerBinding
+import com.play.swarsangam.service.MusicService
 
 class PlayerActivity : AppCompatActivity(), ServiceConnection {
 
@@ -40,9 +30,12 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection {
         var runnable: Runnable? = null
         var musicService: MusicService? = null
 
-        @SuppressLint("StaticFieldLeak")
+        @Suppress("StaticFieldLeak")
         lateinit var binding: ActivityPlayerBinding
     }
+
+    private lateinit var audioManager: AudioManager
+    private lateinit var volumeSeekBar: SeekBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,6 +71,37 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection {
                 prevnextsong(true)
             }
         }
+
+        // Find the volume SeekBar in your layout
+        volumeSeekBar = findViewById(R.id.seekBar2)
+
+        // Initialize AudioManager
+        audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
+
+        // Set the maximum volume of the SeekBar
+        val maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
+        volumeSeekBar.max = maxVolume
+
+        // Set the current volume progress
+        val currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
+        volumeSeekBar.progress = currentVolume
+
+        // Set up a listener for the SeekBar to adjust the volume
+        volumeSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                if (fromUser) {
+                    audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0)
+                }
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                // Not needed
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                // Not needed
+            }
+        })
     }
 
     private fun setLayoutUI() {
@@ -89,7 +113,7 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection {
         binding.songName.text = songList[currentPosition].title
     }
 
-    fun createMediaPlayer() {
+    private fun createMediaPlayer() {
         try {
             if (musicService!!.mediaPlayer == null) musicService!!.mediaPlayer = MediaPlayer()
             musicService!!.mediaPlayer!!.reset()
@@ -154,66 +178,25 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection {
         binding.imageButton2playpause.setImageResource(imageResource)
     }
 
-
-    fun playSongWithIncrement(increment: Boolean) {
-        val incrementValue = if (increment) 1 else -1
-        PlayerActivity.currentPosition =
-            (PlayerActivity.currentPosition + incrementValue + PlayerActivity.songList.size) % PlayerActivity.songList.size
-    }
-
-    /*fun setSongPosition(increment:Boolean){
-        if (increment) {
-            PlayerActivity.currentPosition++
-            if (PlayerActivity.currentPosition >= PlayerActivity.songList.size) {
-                PlayerActivity.currentPosition = 0
-            }
-        } else {
-            PlayerActivity.currentPosition--
-            if (PlayerActivity.currentPosition < 0) {
-                PlayerActivity.currentPosition = PlayerActivity.songList.size - 1
-            }
-        }
-    }*/
-    fun prevnextsong(increment: Boolean) {
+    private fun prevnextsong(increment: Boolean) {
         if (increment) {
             setSongPosition(true)
-            //++currentPosition
             ui()
         } else {
             setSongPosition(false)
-            // --currentPosition
             ui()
         }
     }
 
-
-    fun ui() {
+    private fun ui() {
         createMediaPlayer()
         setLayoutUI()
-    }
-    /*
-    private fun playPrevious() {
-        playSongWithIncrement(false)
-        ui()
-    }
-
-    fun playNext() {
-        playSongWithIncrement(true)
-        ui()
-    }*/
-
-
-    private fun formatDuration(duration: Int): String {
-        val minutes = duration / 1000 / 60
-        val seconds = duration / 1000 % 60
-        return "%d:%02d".format(minutes, seconds)
     }
 
     override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
         val binder = service as MusicService.MusicBinder
         musicService = binder.getService()
         createMediaPlayer()
-        //musicService!!.showNotification(R.drawable.ic_pause)
         musicService!!.audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
         musicService!!.audioManager.requestAudioFocus(
             musicService,
@@ -225,6 +208,4 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection {
     override fun onServiceDisconnected(name: ComponentName?) {
         musicService = null
     }
-
-
 }
