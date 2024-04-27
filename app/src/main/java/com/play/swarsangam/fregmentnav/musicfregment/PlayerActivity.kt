@@ -18,10 +18,13 @@ import com.play.swarsangam.databinding.ActivityPlayerBinding
 
 import android.annotation.SuppressLint
 import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.media.AudioManager
 
 import android.os.Handler
+import androidx.core.content.getSystemService
 
 
 import com.bumptech.glide.Glide
@@ -36,6 +39,7 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection {
         var handler: Handler = Handler()
         var runnable: Runnable? = null
         var musicService: MusicService? = null
+
         @SuppressLint("StaticFieldLeak")
         lateinit var binding: ActivityPlayerBinding
     }
@@ -57,7 +61,7 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection {
         initializeLayout()
 
         binding.imageButtonprev.setOnClickListener {
-            playPrevious()
+            prevnextsong(false)
         }
 
         binding.imageButton2playpause.setOnClickListener {
@@ -65,13 +69,13 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection {
         }
 
         binding.imageButton3next.setOnClickListener {
-            playNext()
+            prevnextsong(true)
         }
 
         musicService?.let {
             it.mediaPlayer?.setOnCompletionListener {
                 // Automatically move to the next song when the current one finishes
-                playNext()
+                prevnextsong(true)
             }
         }
     }
@@ -93,6 +97,7 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection {
             musicService!!.mediaPlayer!!.prepare()
             musicService!!.mediaPlayer!!.start()
             isPlaying = true
+            musicService!!.showNotification(R.drawable.ic_pause)
 
             updatePlayPauseButton()
             updateSeekBar()
@@ -103,7 +108,7 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection {
     }
 
     private fun initializeLayout() {
-        currentPosition = intent.getIntExtra("POSITION", 0)
+        currentPosition = intent.getIntExtra("position", 0)
         songList = MainActivity.audioList
 
         setLayoutUI()
@@ -150,20 +155,43 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection {
     }
 
 
-
     fun playSongWithIncrement(increment: Boolean) {
         val incrementValue = if (increment) 1 else -1
-        PlayerActivity.currentPosition = (PlayerActivity.currentPosition + incrementValue + PlayerActivity.songList.size) % PlayerActivity.songList.size
+        PlayerActivity.currentPosition =
+            (PlayerActivity.currentPosition + incrementValue + PlayerActivity.songList.size) % PlayerActivity.songList.size
+    }
+
+    /*fun setSongPosition(increment:Boolean){
+        if (increment) {
+            PlayerActivity.currentPosition++
+            if (PlayerActivity.currentPosition >= PlayerActivity.songList.size) {
+                PlayerActivity.currentPosition = 0
+            }
+        } else {
+            PlayerActivity.currentPosition--
+            if (PlayerActivity.currentPosition < 0) {
+                PlayerActivity.currentPosition = PlayerActivity.songList.size - 1
+            }
+        }
+    }*/
+    fun prevnextsong(increment: Boolean) {
+        if (increment) {
+            setSongPosition(true)
+            //++currentPosition
+            ui()
+        } else {
+            setSongPosition(false)
+            // --currentPosition
+            ui()
+        }
     }
 
 
-
-
-    fun ui(){
+    fun ui() {
         createMediaPlayer()
         setLayoutUI()
     }
-
+    /*
     private fun playPrevious() {
         playSongWithIncrement(false)
         ui()
@@ -172,9 +200,7 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection {
     fun playNext() {
         playSongWithIncrement(true)
         ui()
-    }
-
-
+    }*/
 
 
     private fun formatDuration(duration: Int): String {
@@ -187,10 +213,18 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection {
         val binder = service as MusicService.MusicBinder
         musicService = binder.getService()
         createMediaPlayer()
-        musicService!!.showNotification(R.drawable.ic_pause)
+        //musicService!!.showNotification(R.drawable.ic_pause)
+        musicService!!.audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        musicService!!.audioManager.requestAudioFocus(
+            musicService,
+            AudioManager.STREAM_MUSIC,
+            AudioManager.AUDIOFOCUS_GAIN
+        )
     }
 
     override fun onServiceDisconnected(name: ComponentName?) {
         musicService = null
     }
+
+
 }

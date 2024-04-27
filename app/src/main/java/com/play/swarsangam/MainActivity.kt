@@ -20,6 +20,8 @@ import com.play.swarsangam.fregmentnav.SettingsFragment
 import com.play.swarsangam.fregmentnav.musicfregment.AudioFile
 import com.play.swarsangam.fregmentnav.musicfregment.AudioFolder
 import com.play.swarsangam.fregmentnav.musicfregment.MusicFragment
+import com.play.swarsangam.fregmentnav.musicfregment.PlayerActivity
+import kotlin.system.exitProcess
 
 
 class MainActivity : AppCompatActivity() {
@@ -208,6 +210,16 @@ class MainActivity : AppCompatActivity() {
         /*val folderList = ArrayList<VideoFolder>()
 
         */
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (!PlayerActivity.isPlaying && PlayerActivity.musicService != null){
+            PlayerActivity.musicService!!.startForeground(true)
+            PlayerActivity.musicService!!.mediaPlayer!!.release()
+            PlayerActivity.musicService= null
+            exitProcess(1)
+        }
     }
 
 

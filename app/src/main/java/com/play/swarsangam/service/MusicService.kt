@@ -7,6 +7,7 @@ import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.media.AudioManager
 import android.media.MediaMetadataRetriever
 import android.media.MediaPlayer
 import android.os.Binder
@@ -18,10 +19,12 @@ import com.play.swarsangam.R
 import com.play.swarsangam.fregmentnav.musicfregment.PlayerActivity
 
 
-class MusicService : Service() {
+class MusicService : Service() ,AudioManager
+.OnAudioFocusChangeListener{
     private val binder = MusicBinder()
     var mediaPlayer: MediaPlayer? = null
     private lateinit var mediaSession: MediaSessionCompat
+    lateinit var audioManager: AudioManager
 
     inner class MusicBinder : Binder() {
         fun getService(): MusicService = this@MusicService
@@ -79,20 +82,40 @@ class MusicService : Service() {
         retriever.setDataSource(path)
         return retriever.embeddedPicture
     }
-/*
-    fun pauseMusic() {
-        mediaPlayer?.pause()
-        PlayerActivity.isPlaying = false
-        showNotification(R.drawable.ic_play)
-        PlayerActivity.binding.imageButton2playpause.setImageResource(R.drawable.ic_play)
+
+    override fun onAudioFocusChange(focusChange: Int) {
+        if (focusChange<= 0){
+            PlayerActivity.isPlaying = false
+            PlayerActivity.musicService?.mediaPlayer?.pause()
+            PlayerActivity.musicService?.showNotification(R.drawable.ic_play)
+            PlayerActivity.binding.imageButton2playpause.setImageResource(R.drawable.ic_play)
+        }
+        else{
+            PlayerActivity.isPlaying = true
+            PlayerActivity.musicService?.mediaPlayer?.start()
+            PlayerActivity.musicService?.showNotification(R.drawable.ic_pause)
+            PlayerActivity.binding.imageButton2playpause.setImageResource(R.drawable.ic_pause)
+
+        }
     }
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        when (intent?.action) {
-            ACTION_PAUSE -> pauseMusic()
-            // Handle other actions if needed
+    fun startForeground(b: Boolean) {
+
+    }
+    /*
+        fun pauseMusic() {
+            mediaPlayer?.pause()
+            PlayerActivity.isPlaying = false
+            showNotification(R.drawable.ic_play)
+            PlayerActivity.binding.imageButton2playpause.setImageResource(R.drawable.ic_play)
         }
-        return START_NOT_STICKY
-    }*/
+
+        override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+            when (intent?.action) {
+                ACTION_PAUSE -> pauseMusic()
+                // Handle other actions if needed
+            }
+            return START_NOT_STICKY
+        }*/
 }
 

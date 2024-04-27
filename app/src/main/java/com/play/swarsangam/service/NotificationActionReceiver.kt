@@ -33,7 +33,9 @@ class NotificationActionReceiver : BroadcastReceiver() {
             }
             AppClass.EXIT -> {
                 PlayerActivity.musicService?.stopForeground(true)
+                PlayerActivity.musicService!!.mediaPlayer!!.release()
                 PlayerActivity.musicService = null
+
                 exitProcess(1) // This will close the app
             }
         }
@@ -42,15 +44,15 @@ class NotificationActionReceiver : BroadcastReceiver() {
     private fun playMusic() {
         PlayerActivity.isPlaying = true
         PlayerActivity.musicService?.mediaPlayer?.start()
-        PlayerActivity.musicService?.showNotification(R.drawable.pause)
-        PlayerActivity.binding.imageButton2playpause.setImageResource(R.drawable.pause)
+        PlayerActivity.musicService?.showNotification(R.drawable.ic_pause)
+        PlayerActivity.binding.imageButton2playpause.setImageResource(R.drawable.ic_pause)
     }
 
     private fun pauseMusic() {
         PlayerActivity.isPlaying = false
         PlayerActivity.musicService?.mediaPlayer?.pause()
-        PlayerActivity.musicService?.showNotification(R.drawable.playbutton)
-        PlayerActivity.binding.imageButton2playpause.setImageResource(R.drawable.playbutton)
+        PlayerActivity.musicService?.showNotification(R.drawable.ic_play)
+        PlayerActivity.binding.imageButton2playpause.setImageResource(R.drawable.ic_play)
     }
 
     private fun nextMusic(increment: Boolean, context: Context) {
