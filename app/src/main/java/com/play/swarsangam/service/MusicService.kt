@@ -65,10 +65,10 @@ class MusicService : Service() {
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .setOnlyAlertOnce(true)
-            .addAction(R.drawable.previous, "prev", prevPendingIntent)
+            .addAction(R.drawable.ic_prev, "prev", prevPendingIntent)
             .addAction(playPausebtn, "play", playPendingIntent)
-            .addAction(R.drawable.next, "next", nextPendingIntent)
-            .addAction(R.drawable.reject, "exit", exitPendingIntent)
+            .addAction(R.drawable.ic_next, "next", nextPendingIntent)
+            .addAction(R.drawable.ic_exit, "exit", exitPendingIntent)
             .build()
 
         startForeground(1, notification)

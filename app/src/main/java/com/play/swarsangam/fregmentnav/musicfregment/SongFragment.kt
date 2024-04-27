@@ -12,7 +12,8 @@ import com.play.swarsangam.MainActivity
 import com.play.swarsangam.R
 import com.play.swarsangam.fregmentnav.musicfregment.songsfregment.SongAdapter
 
-class SongFragment : Fragment() {
+
+class SongFragment : Fragment(), SongAdapter.OnItemClickListener {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,10 +33,14 @@ class SongFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         // Set adapter
-        val adapter = SongAdapter(requireContext(), MainActivity.audioList)
+        val adapter = SongAdapter(requireContext(), MainActivity.audioList, this)
         recyclerView.adapter = adapter
     }
 
-
-
+    override fun onItemClick(position: Int) {
+        // Open PlayerActivity with the clicked item's position
+        val intent = Intent(requireContext(), PlayerActivity::class.java)
+        intent.putExtra("position", position)
+        startActivity(intent)
+    }
 }

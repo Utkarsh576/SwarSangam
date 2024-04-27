@@ -9,6 +9,10 @@
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+
+
 
     <application
         android:name=".service.AppClass"
@@ -37,6 +41,7 @@
             android:name=".MainActivity"
             android:exported="true" />
         <service android:name=".service.MusicService"
+
             />
         <receiver android:name=".service.NotificationActionReceiver"/>
 

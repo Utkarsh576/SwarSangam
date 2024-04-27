@@ -131,21 +131,21 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection {
 
     private fun pauseSong() {
         musicService!!.mediaPlayer!!.pause()
-        musicService!!.showNotification(R.drawable.playbutton)
+        musicService!!.showNotification(R.drawable.ic_play)
         isPlaying = false
         updatePlayPauseButton()
     }
 
     private fun resumeSong() {
         musicService!!.mediaPlayer!!.start()
-        musicService!!.showNotification(R.drawable.pause)
+        musicService!!.showNotification(R.drawable.ic_pause)
         isPlaying = true
         updatePlayPauseButton()
         updateSeekBar()
     }
 
     private fun updatePlayPauseButton() {
-        val imageResource = if (isPlaying) R.drawable.pause else R.drawable.playbutton
+        val imageResource = if (isPlaying) R.drawable.ic_pause else R.drawable.ic_play
         binding.imageButton2playpause.setImageResource(imageResource)
     }
 
@@ -187,7 +187,7 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection {
         val binder = service as MusicService.MusicBinder
         musicService = binder.getService()
         createMediaPlayer()
-        musicService!!.showNotification(R.drawable.pause)
+        musicService!!.showNotification(R.drawable.ic_pause)
     }
 
     override fun onServiceDisconnected(name: ComponentName?) {

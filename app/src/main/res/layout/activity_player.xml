@@ -13,7 +13,7 @@
         android:layout_width="0dp"
         android:layout_height="320dp"
         android:layout_marginStart="1dp"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="50dp"
         android:layout_marginEnd="1dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,6 +36,7 @@
         android:layout_marginTop="30dp"
         android:gravity="center"
         android:text="songName"
+        android:maxLength="35"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView3" />
@@ -54,29 +55,29 @@
 
         <ImageButton
             android:id="@+id/imageButtonprev"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
             android:layout_weight="1"
             android:backgroundTint="@android:color/transparent"
-            app:srcCompat="@android:drawable/ic_media_previous"
+            app:srcCompat="@drawable/ic_prev"
             app:tint="@color/appred" />
 
         <ImageButton
             android:id="@+id/imageButton2playpause"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="74dp"
+            android:layout_height="54dp"
             android:layout_weight="1"
             android:backgroundTint="@android:color/transparent"
-            app:srcCompat="@android:drawable/ic_media_play"
+            app:srcCompat="@drawable/ic_play"
             app:tint="@color/appred" />
 
         <ImageButton
             android:id="@+id/imageButton3next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
             android:layout_weight="1"
             android:backgroundTint="@android:color/transparent"
-            app:srcCompat="@android:drawable/ic_media_next"
+            app:srcCompat="@drawable/ic_next"
             app:tint="@color/appred" />
     </LinearLayout>
 
