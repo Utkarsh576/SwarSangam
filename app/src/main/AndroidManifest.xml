@@ -12,8 +12,6 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
 
-
-
     <application
         android:name=".service.AppClass"
         android:allowBackup="true"
@@ -25,6 +23,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SwarSangam"
         tools:targetApi="31">
+        <activity
+            android:name=".fregmentnav.musicfregment.albumfregmentadapter.AlbumD"
+            android:exported="false" />
+        <activity
+            android:name=".fregmentnav.musicfregment.albumfregmentadapter.AlbumDActivity"
+            android:exported="false" />
         <activity
             android:name=".fregmentnav.musicfregment.PlayerActivity"
             android:exported="false" />
@@ -40,17 +44,16 @@
         <activity
             android:name=".MainActivity"
             android:exported="true" />
-        <service android:name=".service.MusicService"
-            android:foregroundServiceType="mediaPlayback"
 
-            />
-        <receiver android:name=".service.NotificationActionReceiver"/>
+        <service
+            android:name=".service.MusicService"
+            android:foregroundServiceType="mediaPlayback" />
 
+        <receiver android:name=".service.NotificationActionReceiver" />
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
     </application>
-
 
 </manifest>

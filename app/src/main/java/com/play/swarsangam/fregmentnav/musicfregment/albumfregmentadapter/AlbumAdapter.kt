@@ -1,5 +1,7 @@
 package com.play.swarsangam.fregmentnav.musicfregment.albumfregmentadapter
 
+
+
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -10,14 +12,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.play.swarsangam.AlbumInfo
 import com.play.swarsangam.R
+import com.play.swarsangam.fregmentnav.musicfregment.AlbumFragment
 
-class AlbumAdapter(private val context: Context, private val albumList: ArrayList<AlbumInfo>) :
-    RecyclerView.Adapter    <AlbumAdapter.AlbumViewHolder>() {
-
+class AlbumAdapter(
+    private val context: Context,
+    private val albumList: ArrayList<AlbumInfo>,
+    private val itemClickListener: AlbumFragment
+) : RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder>() {
+    interface OnAlbumItemClickListener {
+        fun onItemClick(position: Int, albumList: ArrayList<AlbumInfo>)
+    }
     // Inner ViewHolder class
     class AlbumViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val albumNameTextView: TextView = itemView.findViewById(R.id.albumName)
-        val albumArt: ImageView= itemView.findViewById(R.id.albumArt)
+        val albumArt: ImageView = itemView.findViewById(R.id.albumArt)
+
     }
 
     // Create new views (invoked by the layout manager)
@@ -32,13 +41,24 @@ class AlbumAdapter(private val context: Context, private val albumList: ArrayLis
         val album = albumList[position]
         holder.albumNameTextView.text = album.album
         Glide.with(context)
-            .load(album.albumArtUri) // Assuming albumArtUri is the URI of the album art
-            .placeholder(R.drawable.musicplayer) // Placeholder image while loading
-            .error(R.drawable.musicplayer) // Error image if Glide fails to load
+            .load(album.albumArtUri)
+            .placeholder(R.drawable.musicplayer)
+            .error(R.drawable.musicplayer)
             .into(holder.albumArt)
+
+        // Set click listener
+        holder.itemView.setOnClickListener {
+            itemClickListener.onItemClick(position, albumList)
+        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = albumList.size
 }
+
+
+
+
+
+
 
