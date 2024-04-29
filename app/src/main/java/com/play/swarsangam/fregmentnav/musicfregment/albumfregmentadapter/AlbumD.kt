@@ -1,6 +1,7 @@
 package com.play.swarsangam.fregmentnav.musicfregment.albumfregmentadapter
 
 import android.content.ContentUris
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -15,9 +16,10 @@ import com.play.swarsangam.AlbumInfo
 import com.play.swarsangam.MainActivity
 import com.play.swarsangam.R
 import com.play.swarsangam.fregmentnav.musicfregment.AudioFile
+import com.play.swarsangam.fregmentnav.musicfregment.PlayerActivity
 
 class AlbumD : AppCompatActivity() {
-    private val audioList = ArrayList<AudioFile>()
+    private val audioListA = ArrayList<AudioFile>()
     private lateinit var albumAdapter: AlbumDAdapter
     private lateinit var recyclerView: RecyclerView
 
@@ -32,37 +34,27 @@ class AlbumD : AppCompatActivity() {
             insets
         }
 
-        // Initialize the RecyclerView and its adapter
         recyclerView = findViewById(R.id.albumDRv)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        albumAdapter = AlbumDAdapter(this, audioList)
+
+        albumAdapter = AlbumDAdapter(this, audioListA) { position ->
+            val intent = Intent(this, PlayerActivity::class.java)
+            intent.putExtra("position", position)
+            intent.putExtra("audioListA", audioListA)
+            startActivity(intent)
+        }
         recyclerView.adapter = albumAdapter
 
-        // Retrieve data from Intent extras
         val position = intent.getIntExtra("position", -1)
-        val albumList=MainActivity.albumList
+        val albumList = MainActivity.albumList
 
-        // Now you can use the position and albumList as needed
-        Toast.makeText(this,"$position",Toast.LENGTH_LONG).show()
-
-        // Check if albumList is not null and position is valid
         if (position != -1 && albumList != null && position < albumList.size) {
-            // Access the album at the specified position
             val selectedAlbum = albumList[position]
-
-            // Now you have the selected album, you can use it as needed
-            // For example, you can access its properties like selectedAlbum.albumId, selectedAlbum.album, etc.
-
-            // Once you have the album, you can filter the audio files list based on this album
             loadAudioFiles(selectedAlbum)
-
-            // Now audioList contains all audio files for the selected album
-            // You can use this list to display or perform operations related to the selected album's audio files
         } else {
-            // Handle invalid position or null albumList
+            Toast.makeText(this, "Invalid position or album list", Toast.LENGTH_SHORT).show()
         }
     }
-
 
     private fun loadAudioFiles(selectedAlbum: AlbumInfo) {
         val audioUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
@@ -123,10 +115,9 @@ class AlbumD : AppCompatActivity() {
                     albumArtUri
                 )
 
-                audioList.add(audioFile)
+                audioListA.add(audioFile)
             }
         }
-        // Notify the adapter that data has changed
         albumAdapter.notifyDataSetChanged()
     }
 }

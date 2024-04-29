@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.IBinder
 import android.widget.SeekBar
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -130,11 +131,48 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection {
             return
         }
     }
-
-    private fun initializeLayout() {
+    /*private fun datalistset(){
         currentPosition = intent.getIntExtra("position", 0)
         songList = MainActivity.audioList
 
+        intent.getIntExtra("position", 0)
+        val audioListf = intent.getSerializableExtra("audioListf") as? ArrayList<AudioFile>
+
+        intent.getIntExtra("position", 0)
+        val audioListR = intent.getSerializableExtra("audioListR") as? ArrayList<AudioFile>
+
+        val position = intent.getIntExtra("position", -1)
+        val audioListA = intent.getParcelableArrayListExtra<AudioFile>("audioListA")
+
+        if (position != -1 && audioListA != null && position < audioListA.size) {
+            val selectedAudio = audioListA[position]
+            // Proceed with the selected audio file
+        } else {
+            Toast.makeText(this, "Invalid position or audio list", Toast.LENGTH_SHORT).show()
+            finish() // Finish the activity if the position or audio list is invalid
+        }
+
+    }*/
+    private fun datalistset(intent: Intent) {
+        val position = intent.getIntExtra("position", 0) // Default position is 0
+
+        // Check if the intent contains audio list for song list fragment
+        val audioList = when {
+            intent.hasExtra("audioListf") -> intent.getParcelableArrayListExtra<AudioFile>("audioListf")
+            intent.hasExtra("audioListA") -> intent.getParcelableArrayListExtra<AudioFile>("audioListA")
+            intent.hasExtra("audioListR") -> intent.getSerializableExtra("audioListR") as? ArrayList<AudioFile>
+            else -> null
+        }
+
+        // Set current position and song list
+        currentPosition = position
+        songList = audioList ?: MainActivity.audioList
+    }
+
+
+    private fun initializeLayout() {
+
+        datalistset(intent)
         setLayoutUI()
     }
 

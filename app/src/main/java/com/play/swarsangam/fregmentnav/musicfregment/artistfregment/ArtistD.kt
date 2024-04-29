@@ -1,6 +1,6 @@
 package com.play.swarsangam.fregmentnav.musicfregment.artistfregment
 
-import android.content.ContentUris
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -14,12 +14,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.play.swarsangam.MainActivity
 import com.play.swarsangam.R
 import com.play.swarsangam.fregmentnav.musicfregment.AudioFile
-import com.play.swarsangam.fregmentnav.musicfregment.artistfregment.ArtistAdapter
+import com.play.swarsangam.fregmentnav.musicfregment.PlayerActivity
 
 class ArtistD : AppCompatActivity() {
     private lateinit var artistDAdapter: ArtistDAdapter
-    private val audioList = ArrayList<AudioFile>()
-
+    private val audioListR = ArrayList<AudioFile>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,10 +30,14 @@ class ArtistD : AppCompatActivity() {
             insets
         }
         val artistRecyclerView: RecyclerView = findViewById(R.id.artistDrv)
-        val artistDAdapter = ArtistDAdapter(audioList)
+        artistDAdapter = ArtistDAdapter(audioListR) { position ->
+            val intent = Intent(this, PlayerActivity::class.java)
+            intent.putExtra("position", position)
+            intent.putExtra("audioListR", audioListR)
+            startActivity(intent)
+        }
         artistRecyclerView.adapter = artistDAdapter
         artistRecyclerView.layoutManager = LinearLayoutManager(this)
-
 
         val position = intent.getIntExtra("position", -1)
         val artistList = MainActivity.artistList
@@ -42,13 +45,10 @@ class ArtistD : AppCompatActivity() {
         if (position != -1 && artistList != null && position < artistList.size) {
             val selectedArtist = artistList[position]
             loadAudioFiles(selectedArtist)
-
         } else {
             Toast.makeText(this, "Invalid position or artist list", Toast.LENGTH_SHORT).show()
         }
     }
-
-
 
     private fun loadAudioFiles(selectedArtist: String) {
         val audioUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
@@ -91,10 +91,7 @@ class ArtistD : AppCompatActivity() {
                 val duration = cursor.getLong(durationColumn)
                 val size = cursor.getLong(sizeColumn)
                 val path = cursor.getString(pathColumn)
-                val albumArtUri = ContentUris.withAppendedId(
-                    Uri.parse("content://media/external/audio/albumart"),
-                    albumId
-                )
+                val albumArtUri = Uri.parse("content://media/external/audio/albumart/$albumId")
 
                 val audioFile = AudioFile(
                     id,
@@ -108,7 +105,7 @@ class ArtistD : AppCompatActivity() {
                     albumArtUri
                 )
 
-                audioList.add(audioFile)
+                audioListR.add(audioFile)
 
                 if (!MainActivity.artistList.contains(artist)) {
                     MainActivity.artistList.add(artist)

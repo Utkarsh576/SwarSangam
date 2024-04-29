@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.play.swarsangam.R
 import com.play.swarsangam.fregmentnav.musicfregment.AudioFile
 
-class ArtistDAdapter(private val audioList: List<AudioFile>) : RecyclerView.Adapter<ArtistDAdapter.ArtistViewHolder>() {
+class ArtistDAdapter(private val audioListR: List<AudioFile>, private val onItemClick: (position: Int) -> Unit) : RecyclerView.Adapter<ArtistDAdapter.ArtistViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArtistViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.artist_d, parent, false)
@@ -16,12 +16,15 @@ class ArtistDAdapter(private val audioList: List<AudioFile>) : RecyclerView.Adap
     }
 
     override fun onBindViewHolder(holder: ArtistViewHolder, position: Int) {
-        val audio = audioList[position]
+        val audio = audioListR[position]
         holder.bind(audio)
+        holder.itemView.setOnClickListener {
+            onItemClick(position)
+        }
     }
 
     override fun getItemCount(): Int {
-        return audioList.size
+        return audioListR.size
     }
 
     inner class ArtistViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -33,3 +36,5 @@ class ArtistDAdapter(private val audioList: List<AudioFile>) : RecyclerView.Adap
         }
     }
 }
+
+

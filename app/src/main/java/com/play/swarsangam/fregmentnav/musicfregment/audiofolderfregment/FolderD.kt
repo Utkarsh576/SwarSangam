@@ -1,6 +1,7 @@
 package com.play.swarsangam.fregmentnav.musicfregment.audiofolderfregment
 
 import android.content.ContentUris
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -15,10 +16,11 @@ import com.play.swarsangam.MainActivity
 import com.play.swarsangam.R
 import com.play.swarsangam.fregmentnav.musicfregment.AudioFile
 import com.play.swarsangam.fregmentnav.musicfregment.AudioFolder
+import com.play.swarsangam.fregmentnav.musicfregment.PlayerActivity
 
 class FolderD : AppCompatActivity() {
-    private val audioList = ArrayList<AudioFile>()
-    private lateinit var folderDAdapter: FolderDAdapter // Declare folderDAdapter property
+    private val audioListf = ArrayList<AudioFile>()
+    private lateinit var folderDAdapter: FolderDAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,10 +34,15 @@ class FolderD : AppCompatActivity() {
         val position = intent.getIntExtra("position", -1)
         val audioFolderList = MainActivity.audioFolderList
 
-        // Initialize folderDAdapter here
         val recyclerView: RecyclerView = findViewById(R.id.folderDRv)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        folderDAdapter = FolderDAdapter(this, audioList)
+
+        folderDAdapter = FolderDAdapter(this, audioListf) { position ->
+            val intent = Intent(this, PlayerActivity::class.java)
+            intent.putExtra("position", position)
+            intent.putExtra("audioListf", audioListf)
+            startActivity(intent)
+        }
         recyclerView.adapter = folderDAdapter
 
         if (position != -1 && audioFolderList != null && position < audioFolderList.size) {
@@ -104,7 +111,7 @@ class FolderD : AppCompatActivity() {
                     albumArtUri
                 )
 
-                audioList.add(audioFile)
+                audioListf.add(audioFile)
             }
         }
         folderDAdapter.notifyDataSetChanged()
