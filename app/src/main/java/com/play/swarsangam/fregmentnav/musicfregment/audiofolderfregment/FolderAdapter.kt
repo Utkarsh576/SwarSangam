@@ -9,11 +9,27 @@ import androidx.recyclerview.widget.RecyclerView
 import com.play.swarsangam.R
 import com.play.swarsangam.fregmentnav.musicfregment.AudioFolder
 
-class FolderAdapter(private val context: Context,private val audioFolderList: ArrayList<AudioFolder>) :
-    RecyclerView.Adapter<FolderAdapter.FolderViewHolder>() {
+class FolderAdapter(
+    private val context: Context,
+    private val audioFolderList: ArrayList<AudioFolder>,
+    private val itemClickListener: OnFolderItemClickListener // Step 1: Interface for item click
+) : RecyclerView.Adapter<FolderAdapter.FolderViewHolder>() {
 
-    inner class FolderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class FolderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         val folderName: TextView = itemView.findViewById(R.id.folderName)
+
+        init {
+            itemView.setOnClickListener(this)
+        }
+
+        override fun onClick(v: View?) {
+            // Step 2: Pass the clicked position to the click listener
+            itemClickListener.onItemClick(adapterPosition)
+        }
+    }
+
+    interface OnFolderItemClickListener { // Step 1: Interface for item click
+        fun onItemClick(position: Int)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FolderViewHolder {
@@ -24,10 +40,11 @@ class FolderAdapter(private val context: Context,private val audioFolderList: Ar
 
     override fun onBindViewHolder(holder: FolderViewHolder, position: Int) {
         val folder = audioFolderList[position]
-        holder.folderName.text = folder.folderName.toString()
+        holder.folderName.text = folder.folderName
     }
 
     override fun getItemCount(): Int {
         return audioFolderList.size
     }
 }
+
