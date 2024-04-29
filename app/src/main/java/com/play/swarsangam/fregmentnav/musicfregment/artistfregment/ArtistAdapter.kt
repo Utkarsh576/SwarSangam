@@ -8,11 +8,15 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.play.swarsangam.R
 
-class ArtistAdapter(artistList1: Context, private val artistList: List<String>) :
+class ArtistAdapter(
+    private val context: Context,
+    private val artistList: List<String>,
+    private val itemClickListener: OnArtistItemClickListener
+) :
     RecyclerView.Adapter<ArtistAdapter.ArtistViewHolder>() {
 
-    class ArtistViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val artistNameTextView: TextView = itemView.findViewById(R.id.artistName)
+    interface OnArtistItemClickListener {
+        fun onItemClick(position: Int, artistList: List<String>)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArtistViewHolder {
@@ -23,7 +27,15 @@ class ArtistAdapter(artistList1: Context, private val artistList: List<String>) 
 
     override fun onBindViewHolder(holder: ArtistViewHolder, position: Int) {
         holder.artistNameTextView.text = artistList[position]
+        // Set click listener
+        holder.itemView.setOnClickListener {
+            itemClickListener.onItemClick(position, artistList)
+        }
     }
 
     override fun getItemCount() = artistList.size
+
+    class ArtistViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val artistNameTextView: TextView = itemView.findViewById(R.id.artistName)
+    }
 }

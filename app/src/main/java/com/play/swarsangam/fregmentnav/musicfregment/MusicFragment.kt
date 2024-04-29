@@ -1,5 +1,6 @@
 package com.play.swarsangam.fregmentnav.musicfregment
 
+
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.tabs.TabLayout
 import com.play.swarsangam.R
+import com.play.swarsangam.fregmentnav.musicfregment.artistfregment.ArtistFragment
 
 class MusicFragment : Fragment() {
 

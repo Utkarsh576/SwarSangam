@@ -24,6 +24,9 @@
         android:theme="@style/Theme.SwarSangam"
         tools:targetApi="31">
         <activity
+            android:name=".fregmentnav.musicfregment.artistfregment.ArtistD"
+            android:exported="false" />
+        <activity
             android:name=".fregmentnav.musicfregment.albumfregmentadapter.AlbumD"
             android:exported="false" />
         <activity
