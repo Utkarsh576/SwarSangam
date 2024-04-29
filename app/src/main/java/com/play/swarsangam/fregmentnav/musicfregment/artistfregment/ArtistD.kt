@@ -17,8 +17,9 @@ import com.play.swarsangam.fregmentnav.musicfregment.AudioFile
 import com.play.swarsangam.fregmentnav.musicfregment.artistfregment.ArtistAdapter
 
 class ArtistD : AppCompatActivity() {
-    private lateinit var artistAdapter: ArtistAdapter
+    private lateinit var artistDAdapter: ArtistDAdapter
     private val audioList = ArrayList<AudioFile>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +30,11 @@ class ArtistD : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        val artistRecyclerView: RecyclerView = findViewById(R.id.artistDrv)
+        val artistDAdapter = ArtistDAdapter(audioList)
+        artistRecyclerView.adapter = artistDAdapter
+        artistRecyclerView.layoutManager = LinearLayoutManager(this)
+
 
         val position = intent.getIntExtra("position", -1)
         val artistList = MainActivity.artistList
@@ -103,8 +109,12 @@ class ArtistD : AppCompatActivity() {
                 )
 
                 audioList.add(audioFile)
+
+                if (!MainActivity.artistList.contains(artist)) {
+                    MainActivity.artistList.add(artist)
+                }
             }
         }
-        artistAdapter.notifyDataSetChanged()
+        artistDAdapter.notifyDataSetChanged()
     }
 }
