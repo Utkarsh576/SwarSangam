@@ -35,8 +35,7 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection {
         lateinit var binding: ActivityPlayerBinding
     }
 
-    private lateinit var audioManager: AudioManager
-    private lateinit var volumeSeekBar: SeekBar
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +52,7 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection {
         startService(intent)
 
         initializeLayout()
-        createMediaPlayer()
+
 
         binding.imageButtonprev.setOnClickListener {
             prevnextsong(false)
@@ -74,36 +73,7 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection {
             }
         }
 
-        // Find the volume SeekBar in your layout
-        volumeSeekBar = findViewById(R.id.seekBar2)
 
-        // Initialize AudioManager
-        audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
-
-        // Set the maximum volume of the SeekBar
-        val maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
-        volumeSeekBar.max = maxVolume
-
-        // Set the current volume progress
-        val currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
-        volumeSeekBar.progress = currentVolume
-
-        // Set up a listener for the SeekBar to adjust the volume
-        volumeSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                if (fromUser) {
-                    audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0)
-                }
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
-                // Not needed
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                // Not needed
-            }
-        })
     }
 
     private fun setLayoutUI() {
@@ -129,7 +99,8 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection {
             updateSeekBar()
 
         } catch (e: Exception) {
-            return
+            return  e.printStackTrace()
+            Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
         }
     }
     /*private fun datalistset(){
@@ -157,18 +128,18 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection {
     private fun datalistset(intent: Intent) {
         val position = intent.getIntExtra("position", 0) // Default position is 0
 
-       /* // Check if the intent contains audio list for song list fragment
+        // Check if the intent contains audio list for song list fragment
         val audioList = when {
             intent.hasExtra("audioListf") -> intent.getParcelableArrayListExtra<AudioFile>("audioListf")
             intent.hasExtra("audioListA") -> intent.getParcelableArrayListExtra<AudioFile>("audioListA")
             intent.hasExtra("audioListR") -> intent.getSerializableExtra("audioListR") as? ArrayList<AudioFile>
             else -> null
-        }*/
+        }
 
         // Set current position and song list
         currentPosition = position
-       // songList = audioList ?: MainActivity.audioList
-        songList =  MainActivity.audioList
+        songList = audioList ?: MainActivity.audioList
+        //songList =  MainActivity.audioList
     }
 
 
