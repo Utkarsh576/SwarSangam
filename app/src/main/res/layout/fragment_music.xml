@@ -12,23 +12,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        app:tabIconTint="@color/appred"
         app:itemTextAppearanceActiveBoldEnabled="true"
-        app:tabTextColor="@color/appred"
-        app:tabIndicatorColor="@color/appred"
-        app:tabIndicatorHeight="1px"
-        app:tabIndicatorAnimationMode="fade"
-        app:tabSelectedTextColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tabGravity="fill"
+        app:tabIconTint="@color/appred"
+        app:tabIndicatorAnimationMode="fade"
+        app:tabIndicatorColor="@color/appred"
+        app:tabIndicatorHeight="1px"
         app:tabMode="fixed"
-        />
+        app:tabSelectedTextColor="@color/black"
+        app:tabTextColor="@color/appred" />
 
-    <FrameLayout
-        android:id="@+id/fragment_container"
-        android:layout_width="0dp"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

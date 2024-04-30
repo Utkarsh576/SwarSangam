@@ -8,6 +8,20 @@
     android:foregroundTint="#1DE1CA"
     tools:context=".fregmentnav.musicfregment.PlayerActivity">
 
+    <SeekBar
+        android:id="@+id/seekBar2"
+        style="@android:style/Widget.Material.SeekBar"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+
+        android:orientation="vertical"
+        android:secondaryProgressTint="@color/appred"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView3"
         android:layout_width="320dp"
@@ -108,18 +122,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <SeekBar
-        android:id="@+id/seekBar2"
-        android:layout_width="0dp"
-        android:secondaryProgressTint="@color/appred"
-
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
-
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
@@ -133,6 +135,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
         app:layout_constraintVertical_bias="0.15" />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

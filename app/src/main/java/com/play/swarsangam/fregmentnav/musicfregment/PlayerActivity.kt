@@ -53,6 +53,7 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection {
         startService(intent)
 
         initializeLayout()
+        createMediaPlayer()
 
         binding.imageButtonprev.setOnClickListener {
             prevnextsong(false)
@@ -156,17 +157,18 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection {
     private fun datalistset(intent: Intent) {
         val position = intent.getIntExtra("position", 0) // Default position is 0
 
-        // Check if the intent contains audio list for song list fragment
+       /* // Check if the intent contains audio list for song list fragment
         val audioList = when {
             intent.hasExtra("audioListf") -> intent.getParcelableArrayListExtra<AudioFile>("audioListf")
             intent.hasExtra("audioListA") -> intent.getParcelableArrayListExtra<AudioFile>("audioListA")
             intent.hasExtra("audioListR") -> intent.getSerializableExtra("audioListR") as? ArrayList<AudioFile>
             else -> null
-        }
+        }*/
 
         // Set current position and song list
         currentPosition = position
-        songList = audioList ?: MainActivity.audioList
+       // songList = audioList ?: MainActivity.audioList
+        songList =  MainActivity.audioList
     }
 
 
