@@ -72,6 +72,7 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection {
                 prevnextsong(true)
             }
         }
+        createMediaPlayer()
 
 
     }
