@@ -46,10 +46,10 @@ class MainActivity : AppCompatActivity() {
         // Set listener for bottom navigation item clicks
         binding.bottomNavigation.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.menu_home -> {
+                /*R.id.menu_home -> {
                     replaceFragment(HomeFragment())
                     true
-                }
+                }*/
                 R.id.menu_music -> {
                     replaceFragment(MusicFragment())
                     true
@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity() {
 
 
         // Set default fragment
-        binding.bottomNavigation.selectedItemId = R.id.menu_home
+        binding.bottomNavigation.selectedItemId = R.id.menu_music
     }
 
     private fun replaceFragment(fragment: androidx.fragment.app.Fragment) {

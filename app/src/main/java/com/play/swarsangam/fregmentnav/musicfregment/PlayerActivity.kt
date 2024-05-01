@@ -200,6 +200,8 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection {
         }
     }
 
+
+
     private fun ui() {
         createMediaPlayer()
         setLayoutUI()
